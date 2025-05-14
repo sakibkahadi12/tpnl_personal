@@ -1,0 +1,56 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+:root {
+  --max-width: 1440px;
+}
+
+/* Default styles */
+html,
+body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  scroll-behavior: smooth;
+  /* overflow-x: hidden !important; */
+  /* background-color: #EFF6FF; */
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased; /* Smooth text rendering */
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(34%) sepia(89%) saturate(2034%) hue-rotate(180deg);
+  /* margin-left: 20px; */
+  /* cursor: pointer; */
+}
+/* Center the content and limit width */
+.container {
+  max-width: var(--max-width);
+  margin: 0 auto;
+}
+
+/* Scrollbar CSS */
+::-webkit-scrollbar {
+  width: 8px; /* Set the width of the scrollbar */
+  scroll-behavior: smooth; /* Add smooth scrolling behavior */
+}
+::-webkit-scrollbar-thumb {
+  border-radius: 5px;
+  background-color: #2d77a8; /* Set the color of the scrollbar thumb (handle) */
+}
+::-webkit-scrollbar-thumb:hover {
+  background-color: #2d77a8a9; /* Set the hover color for the scrollbar thumb */
+}
+::-webkit-scrollbar-track {
+  background-color: #a4c2d8; /* Set the color of the scrollbar track (background) */
+}
+
+
+/* Input fields autofill CSS */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 30px white inset !important;
+  transition: background-color 5000s ease-in-out 0s;
+}
