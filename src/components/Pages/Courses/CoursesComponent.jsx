@@ -154,18 +154,23 @@ const CoursesComponent = () => {
     setOpen(isOpen);
     setSelectedUuid(uuid); // Set the UUID when the dialog is opened
   };
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
-  const handleDelete = (uuid) => {
-    // delete logic completed 
-    console.log(uuid)
-    // handleCourseDelete(
-    //   { uuid },
-    //   {
-    //     onSuccess: () => {
-    //       setOpen(false);
-    //     },
-    //   },
-    // );
+  const handleDelete = () => {
+    console.log("Deleting UUID:", selectedUuid);
+    handleCourseDelete(
+      { uuid: selectedUuid },
+      {
+        onSuccess: () => {
+          setIsDeleteModalOpen(false);
+          console.log("Successfully deleted:", selectedUuid);
+        },
+        onError: (error) => {
+          console.error("Delete failed:", error);
+          setIsDeleteModalOpen(false);
+        },
+      },
+    );
   };
 
   const mappedData =
@@ -187,7 +192,6 @@ const CoursesComponent = () => {
       minimum_qualification: item?.min_qualification,
     })) || [];
   const columns = [
-    
     {
       accessorKey: "courses",
       header: "Course Name",
@@ -253,33 +257,34 @@ const CoursesComponent = () => {
       header: "Minimum Qualification",
       size: 120,
     },
-    
+
     {
       header: "Action",
       id: "actions",
       size: 100,
-        cell: ({ row }) => {
-              const uuid = row.original.uuid; // Get the UUID of the current row
-              return (
-                <div className="flex items-center ">
-                  <Dialog
-                    open={open}
-                    onOpenChange={(isOpen) => handleDialogChange(isOpen, uuid)}
-                  >
-                    <DialogTrigger asChild>
-                      <Image
-                        src="/assets/images/icons/delete.svg"
-                        alt="delete"
-                        width={24}
-                        height={24}
-                        className="cursor-pointer"
-                      />
-                    </DialogTrigger>
-                    
-                  </Dialog>
-                </div>
-              );
-            },
+      cell: ({ row }) => {
+        const uuid = row.original.uuid; // Get the UUID of the current row
+        return (
+          <div>
+            {/* Your other content */}
+            <button
+              onClick={() => {
+                setIsDeleteModalOpen(true);
+                setSelectedUuid(uuid); // Store the UUID of the row to be deleted
+              }}
+              className="your-delete-button-styles"
+            >
+              <Image
+                src="/assets/images/icons/delete.svg"
+                alt="delete"
+                width={24}
+                height={24}
+                className="cursor-pointer"
+              />
+            </button>
+          </div>
+        );
+      },
     },
   ];
   if (isLoading) {
@@ -288,7 +293,11 @@ const CoursesComponent = () => {
   return (
     <div>
       <TitleSection title={"Courses"} />
-
+      <Delete
+        isOpen={isDeleteModalOpen}
+        onClose={() => setIsDeleteModalOpen(false)}
+        onConfirm={handleDelete}
+      />
       <Dialog open={open} onOpenChange={handleDialogChange}>
         <DataTable
           title="Courses"
@@ -313,18 +322,9 @@ const CoursesComponent = () => {
                   />
                 </Button>
               </DialogTrigger>
-
-             
             </div>
           }
         />
-
-<Delete
-          handleDelete={() => handleDelete(selectedUuid)} // Use selectedUuid if needed
-          open={open}
-          onOpenChange={handleDialogChange}
-        />
-    
       </Dialog>
     </div>
   );

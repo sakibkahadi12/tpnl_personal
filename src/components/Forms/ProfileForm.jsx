@@ -61,11 +61,10 @@ const formSchema = z.object({
 });
 
 const ProfileForm = () => {
-  const {data:profile, isLoading} = useProfile()
- const {data:countryList, isLoading:countryLoading} = useCountryList()
- const {data:cityList, isLoading: cityLoading} = useCityList()
- const {data:stateList, isLoading: stateLoading} = useStateList()
-
+  const { data: profile, isLoading } = useProfile();
+  const { data: countryList, isLoading: countryLoading } = useCountryList();
+  const { data: cityList, isLoading: cityLoading } = useCityList();
+  const { data: stateList, isLoading: stateLoading } = useStateList();
 
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -94,9 +93,7 @@ const ProfileForm = () => {
     },
   });
 
- 
   const handleSubmit = async (data) => {
-
     try {
       console.log("Profile Data", data);
       // Handle form submission logic here
@@ -105,13 +102,9 @@ const ProfileForm = () => {
     }
   };
 
- 
-  if ( isLoading || countryLoading|| cityLoading|| stateLoading) {
- 
+  if (isLoading || countryLoading || cityLoading || stateLoading) {
     return <LoadingComponent />;
   }
-
-  
 
   return (
     <div className="mt-6 mb-4 w-full">
@@ -521,7 +514,21 @@ const ProfileForm = () => {
                   <FormLabel>
                     Logo <span className="text-red-500">*</span>
                   </FormLabel>
-                  <InputFile onChange={(e) => console.log("object")} />
+                  <InputFile
+                    onChange={(e) => {
+                      const file = e.target.files?.[0];
+                      if (file) {
+                        console.log("Uploaded file:", {
+                          name: file.name,
+                          type: file.type,
+                          size: file.size,
+                        });
+                        // Optionally, create a preview URL
+                        const previewUrl = URL.createObjectURL(file);
+                        console.log("Preview URL:", previewUrl);
+                      }
+                    }}
+                  />
                   <FormMessage />
                 </FormItem>
               )}
@@ -532,7 +539,21 @@ const ProfileForm = () => {
               render={() => (
                 <FormItem className={"mb-5 w-full"}>
                   <FormLabel>Banner</FormLabel>
-                  <InputFile onChange={(e) => console.log("object")} />
+                  <InputFile
+                    onChange={(e) => {
+                      const file = e.target.files?.[0];
+                      if (file) {
+                        console.log("Uploaded file:", {
+                          name: file.name,
+                          type: file.type,
+                          size: file.size,
+                        });
+                        // Optionally, create a preview URL
+                        const previewUrl = URL.createObjectURL(file);
+                        console.log("Preview URL:", previewUrl);
+                      }
+                    }}
+                  />
                   <FormMessage />
                 </FormItem>
               )}
